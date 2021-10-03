@@ -25,7 +25,12 @@ class Task:
         :param int,float value: Value
         :param str unit: Time unit (e.g. seconds, minutes, hours, days)
         """
-        unit = unit.lower()
+        if not isinstance(value, (int, float)):
+            raise exception.TaskError('Task interval needs to be an integer or float')
+        elif value < 0.01:
+            raise exception.TaskError('Lowest allowed task interval is 0.01')
+
+        unit = str(unit).lower()
         seconds = value
         if unit == storm_scheduler.MINUTES:
             seconds += seconds * 60

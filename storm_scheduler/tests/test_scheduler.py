@@ -3,6 +3,7 @@ import time
 import unittest
 
 from storm_scheduler import scheduler
+from storm_scheduler import exception
 
 
 class TestScheduler(unittest.TestCase):
@@ -68,6 +69,42 @@ class TestScheduler(unittest.TestCase):
         self.assertIsNotNone(task1._next_run)
         self.assertGreaterEqual(1, int(task2.next_run))
         self.assertGreaterEqual(2, int(task3.next_run))
+
+    def test_task_interval_too_low(self):
+        schedule = scheduler.Scheduler()
+        schedule.set_state(schedule.OPEN)
+
+        task = schedule.task(lambda: None)
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            'Lowest allowed task interval is 0.01',
+            task.every, 0.001,
+        )
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            'Lowest allowed task interval is 0.01',
+            task.every, 0,
+        )
+
+    def test_task_interval_invalid(self):
+        schedule = scheduler.Scheduler()
+        schedule.set_state(schedule.OPEN)
+
+        task = schedule.task(lambda: None)
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            'Task interval needs to be an integer or float',
+            task.every, "don't allow strings"
+        )
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            'Task interval needs to be an integer or float',
+            task.every, None
+        )
 
     def test_string_representation(self):
         schedule = scheduler.Scheduler()
