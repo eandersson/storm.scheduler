@@ -159,3 +159,14 @@ class TestScheduler(unittest.TestCase):
         self.assertEqual('<Task: hello_world scheduled to run every 0.01s>', str(task1))
         self.assertEqual('<Task: hello_world scheduled to run every 6s>', str(task2))
         self.assertEqual('<Task: hello_world scheduled to run every 9s>', str(task3))
+
+    def test_string_representation_without_interval_set(self):
+        schedule = scheduler.Scheduler()
+        schedule.set_state(schedule.OPEN)
+
+        def hello_world():
+            pass
+
+        task = schedule.task(hello_world)
+
+        self.assertEqual('<Task: hello_world not yet scheduled to run>', str(task))

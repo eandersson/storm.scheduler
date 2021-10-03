@@ -20,7 +20,9 @@ class Task:
         self.last_runtime = None
 
     def __str__(self):
-        return f'<Task: {self._func.__name__} scheduled to run every {max(self._interval, 0)}s>'
+        if not self._interval:
+            return f'<Task: {self._func.__name__} not yet scheduled to run>'
+        return f'<Task: {self._func.__name__} scheduled to run every {self._interval}s>'
 
     def every(self, value, unit='seconds'):
         """Run a task every X units! (e.g. every 30 seconds)
