@@ -1,5 +1,6 @@
 import logging
 import time
+from typing import Callable
 
 import storm_scheduler
 from storm_scheduler import exception
@@ -9,6 +10,8 @@ LOG = logging.getLogger(__name__)
 
 class Task:
     def __init__(self, func, *args, **kwargs):
+        if not isinstance(func, Callable):
+            raise exception.TaskError('Task func needs to be callable')
         self._func = func
         self._args = args
         self._kwargs = kwargs
@@ -24,6 +27,7 @@ class Task:
 
         :param int,float value: Value
         :param str unit: Time unit (e.g. seconds, minutes, hours, days)
+        :raises TaskError: This is raised when there is an issue with the Task.
         """
         if not isinstance(value, (int, float)):
             raise exception.TaskError('Task interval needs to be an integer or float')

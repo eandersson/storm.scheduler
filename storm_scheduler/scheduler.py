@@ -13,6 +13,10 @@ MAX_IDLE_TIME = 1.0
 
 class Scheduler(base.Stateful):
     def __init__(self, on_error=None):
+        """Scheduler
+
+        :param typing.Callable on_error: Function to handle Task exceptions.
+        """
         super(Scheduler, self).__init__()
         self._on_error = on_error
         self._tasks = []
@@ -30,7 +34,11 @@ class Scheduler(base.Stateful):
         self.set_state(self.CLOSED)
 
     def task(self, func, *arg, **kwargs):
-        """Create a scheduler task."""
+        """Create a scheduler task.
+
+        :param typing.Callable func: Function to schedule
+        :raises TaskError: This is raised when there is an issue with the Task.
+        """
         task = Task(func, *arg, **kwargs)
         self._tasks.append(task)
         return task
