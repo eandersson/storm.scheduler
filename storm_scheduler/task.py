@@ -11,7 +11,7 @@ LOG = logging.getLogger(__name__)
 class Task:
     def __init__(self, func, *args, **kwargs):
         if not isinstance(func, Callable):
-            raise exception.TaskError('Task func needs to be callable')
+            raise exception.TaskError('Task function needs to be callable')
         self._func = func
         self._args = args
         self._kwargs = kwargs

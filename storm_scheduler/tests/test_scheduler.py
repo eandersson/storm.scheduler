@@ -106,6 +106,27 @@ class TestScheduler(unittest.TestCase):
             task.every, None
         )
 
+    def test_task_function_invalid(self):
+        schedule = scheduler.Scheduler()
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            'Task function needs to be callable',
+            schedule.task, "don't allow strings"
+        )
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            'Task function needs to be callable',
+            schedule.task, None
+        )
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            'Task function needs to be callable',
+            schedule.task, 1
+        )
+
     def test_string_representation(self):
         schedule = scheduler.Scheduler()
         schedule.set_state(schedule.OPEN)
