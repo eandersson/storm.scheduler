@@ -1,3 +1,4 @@
+import threading
 import time
 import unittest
 
@@ -5,6 +6,27 @@ from storm_scheduler import scheduler
 
 
 class TestScheduler(unittest.TestCase):
+    def test_schedule_task(self):
+        schedule = scheduler.Scheduler()
+
+        self.call_count = 0
+
+        def hello_world():
+            self.call_count += 1
+
+        # Stop the scheduler after 1 second.
+        timer = threading.Timer(1.0, lambda: schedule.close())
+        timer.start()
+
+        # Schedule a task to run every 0.1 seconds.
+        schedule.task(hello_world).every(0.1)
+
+        # Start loop.
+        schedule.loop()
+
+        # Make sure we called it at least once.
+        self.assertTrue(self.call_count)
+
     def test_idle_wait(self):
         schedule = scheduler.Scheduler()
         schedule.set_state(schedule.OPEN)
