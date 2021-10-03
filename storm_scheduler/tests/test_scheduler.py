@@ -78,13 +78,13 @@ class TestScheduler(unittest.TestCase):
 
         self.assertRaisesRegex(
             exception.TaskError,
-            'Lowest allowed task interval is 0.01',
-            task.every, 0.001,
+            'Interval cannot be zero or negative',
+            task.every, -0.01,
         )
 
         self.assertRaisesRegex(
             exception.TaskError,
-            'Lowest allowed task interval is 0.01',
+            'Interval cannot be zero or negative',
             task.every, 0,
         )
 

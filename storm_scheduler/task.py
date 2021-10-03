@@ -25,14 +25,14 @@ class Task:
     def every(self, value, unit='seconds'):
         """Run a task every X units! (e.g. every 30 seconds)
 
-        :param int,float value: Value
+        :param int,float value: Interval
         :param str unit: Time unit (e.g. seconds, minutes, hours, days)
         :raises TaskError: This is raised when there is an issue with the Task.
         """
         if not isinstance(value, (int, float)):
             raise exception.TaskError('Task interval needs to be an integer or float')
-        elif value < 0.01:
-            raise exception.TaskError('Lowest allowed task interval is 0.01')
+        elif value <= 0:
+            raise exception.TaskError('Interval cannot be zero or negative')
 
         unit = str(unit).lower()
         seconds = value
