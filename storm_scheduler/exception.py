@@ -14,5 +14,5 @@ class TaskError(SchedulerError):
 
 
 class CancelTask(SchedulerError):
-    """Permanently cancel the current task."""
+    """Permanently cancel the task."""
     pass

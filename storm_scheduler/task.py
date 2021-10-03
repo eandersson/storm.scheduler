@@ -17,7 +17,7 @@ class Task:
         self.last_runtime = None
 
     def __str__(self):
-        return f'<Task: {self._func.__name__} object schedule to run in {round(max(self.next_run, 0), 3)}s>'
+        return f'<Task: {self._func.__name__} schedule to run in {round(max(self.next_run, 0), 3)}s>'
 
     def set_function(self, func, *arg, **kwargs):
         """Set the function and arguments for this task."""

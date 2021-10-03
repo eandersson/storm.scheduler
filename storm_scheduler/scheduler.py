@@ -26,6 +26,7 @@ class Scheduler(base.Stateful):
         self.set_state(self.CLOSED)
 
     def close(self):
+        """Stop the scheduler."""
         self.set_state(self.CLOSED)
 
     def task(self, func, *arg, **kwargs):
