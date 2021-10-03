@@ -88,6 +88,24 @@ class TestScheduler(unittest.TestCase):
             task.every, 0,
         )
 
+    def test_task_time_unit_not_supported(self):
+        schedule = scheduler.Scheduler()
+        schedule.set_state(schedule.OPEN)
+
+        task = schedule.task(lambda: None)
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            "Unit 'second' not in the list of supported time units",
+            task.every, 1, 'second'
+        )
+
+        self.assertRaisesRegex(
+            exception.TaskError,
+            "Unit 'None' not in the list of supported time units",
+            task.every, 1, None
+        )
+
     def test_task_interval_invalid(self):
         schedule = scheduler.Scheduler()
         schedule.set_state(schedule.OPEN)

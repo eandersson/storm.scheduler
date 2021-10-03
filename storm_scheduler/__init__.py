@@ -12,3 +12,10 @@ SECONDS = 'seconds'
 MINUTES = 'minutes'
 HOURS = 'hours'
 DAYS = 'days'
+
+ALLOWED_TIME_UNITS = [
+    SECONDS,
+    MINUTES,
+    HOURS,
+    DAYS,
+]

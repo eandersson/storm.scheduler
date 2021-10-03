@@ -33,6 +33,8 @@ class Task:
             raise exception.TaskError('Task interval needs to be an integer or float')
         elif value <= 0:
             raise exception.TaskError('Interval cannot be zero or negative')
+        elif unit not in storm_scheduler.ALLOWED_TIME_UNITS:
+            raise exception.TaskError(f"Unit '{unit}' not in the list of supported time units")
 
         unit = str(unit).lower()
         seconds = value
