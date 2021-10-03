@@ -76,10 +76,10 @@ class TestScheduler(unittest.TestCase):
         def hello_world():
             pass
 
-        task1 = schedule.task(hello_world).every(3)
+        task1 = schedule.task(hello_world).every(0.01)
         task2 = schedule.task(hello_world).every(6)
         task3 = schedule.task(hello_world).every(9)
 
-        self.assertEqual('<Task: hello_world schedule to run in 3.0s>', str(task1))
-        self.assertEqual('<Task: hello_world schedule to run in 6.0s>', str(task2))
-        self.assertEqual('<Task: hello_world schedule to run in 9.0s>', str(task3))
+        self.assertEqual('<Task: hello_world schedule to run every 0.01s>', str(task1))
+        self.assertEqual('<Task: hello_world schedule to run every 6s>', str(task2))
+        self.assertEqual('<Task: hello_world schedule to run every 9s>', str(task3))
