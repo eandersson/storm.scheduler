@@ -1,5 +1,5 @@
 """Storm-Scheduler"""
-__version__ = '0.1'  # noqa
+__version__ = '0.1.1'  # noqa
 __author__ = 'eandersson'  # noqa
 
 from storm_scheduler.exception import AbortScheduler  # noqa

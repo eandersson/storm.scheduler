@@ -15,17 +15,42 @@ class TestScheduler(unittest.TestCase):
             self.call_count += 1
 
         # Stop the scheduler after 1 second.
-        timer = threading.Timer(1.0, lambda: schedule.close())
+        timer = threading.Timer(1.0, lambda: schedule.stop())
         timer.start()
 
-        # Schedule a task to run every 0.1 seconds.
-        schedule.task(hello_world).every(0.1)
+        # Schedule a task to run every 0.3 seconds.
+        schedule.task(hello_world).every(0.3)
+
+        # Start loop.
+        schedule.loop()
+
+        # Make sure we called hello_world 3 three times.
+        self.assertEqual(3, self.call_count)
+
+    def test_schedule_task_with_arguments(self):
+        schedule = scheduler.Scheduler()
+
+        self.call_count = 0
+        self.results = None
+
+        def hello_world(hello, message=None):
+            self.call_count += 1
+            self.results = f'{hello} {message}'
+
+        # Stop the scheduler after 1 second.
+        timer = threading.Timer(1.0, lambda: schedule.stop())
+        timer.start()
+
+        # Schedule a task to run every 0.5 seconds.
+        schedule.task(hello_world, 'hello', message='world').every(0.5)
 
         # Start loop.
         schedule.loop()
 
         # Make sure we called it at least once.
-        self.assertTrue(self.call_count)
+        self.assertEqual(1, self.call_count)
+        self.assertIsNotNone(self.results)
+        self.assertEqual('hello world', self.results)
 
     def test_idle_wait(self):
         schedule = scheduler.Scheduler()

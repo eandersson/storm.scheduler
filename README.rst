@@ -8,7 +8,7 @@ A simple task scheduling library.
 
 Example usage
 -------------
-A simple example would look like this.
+A simple example would look something like this.
 
 .. code:: python
 

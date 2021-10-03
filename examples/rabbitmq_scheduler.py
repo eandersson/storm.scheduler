@@ -12,10 +12,12 @@ LOG = logging.getLogger(__name__)
 
 class MyService:
     def __init__(self):
+        self.schedule = storm_scheduler.Scheduler()
+
+        # RabbitMQ Connection
         self.connection = amqpstorm.Connection('localhost', 'guest', 'guest')
         self.channel = self.connection.channel()
         self.channel.queue.declare('storm.scheduler.messages')
-        self.schedule = storm_scheduler.Scheduler()
 
         # Schedule some recurring tasks.
         self.schedule.task(self.hello_world, 'Hello World').every(3)

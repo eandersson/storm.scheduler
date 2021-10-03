@@ -25,14 +25,13 @@ class Scheduler(base.Stateful):
             time.sleep(self._idle_wait())
         self.set_state(self.CLOSED)
 
-    def close(self):
+    def stop(self):
         """Stop the scheduler."""
         self.set_state(self.CLOSED)
 
     def task(self, func, *arg, **kwargs):
         """Create a scheduler task."""
-        task = Task()
-        task.set_function(func, *arg, **kwargs)
+        task = Task(func, *arg, **kwargs)
         self._tasks.append(task)
         return task
 
